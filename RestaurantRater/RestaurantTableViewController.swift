@@ -18,6 +18,7 @@ class RestaurantTableViewController: UITableViewController {
     
     // Data from the table
     var items:[RestaurantOverview]?
+    var details:[RestaurantDetail]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,9 +68,9 @@ class RestaurantTableViewController: UITableViewController {
 
         // Configure the cell... Get Restaurant from array and set as label
         let restaurant = self.items![indexPath.row]
-        cell.textLabel?.text = restaurant.restaurantName
+        cell.textLabel?.text = "Name: " + restaurant.restaurantName!
+        cell.detailTextLabel?.text = "Address: " + restaurant.restaurantAddress!
         
-
         return cell
     }
     

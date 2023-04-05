@@ -40,6 +40,8 @@ class ViewController: UIViewController {
         //save data
         do {
             try self.context.save()
+            txtRestAddress.text = ""
+            txtRestaurantName.text = ""
         } catch {
             
         }
