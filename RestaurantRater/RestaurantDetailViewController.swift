@@ -9,8 +9,13 @@ import UIKit
 
 class RestaurantDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
+    var restuarantName  : String = ""
+    var dishtypeOut: String = ""
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
+    @IBOutlet weak var textRestNamePassed: UILabel!
     
+    @IBOutlet weak var dishRatingSelected: UISegmentedControl!
     @IBOutlet weak var txtDishName: UITextField!
     
     @IBOutlet weak var pckDishType: UIPickerView!
@@ -29,16 +34,40 @@ class RestaurantDetailViewController: UIViewController, UIPickerViewDelegate, UI
         return dishOrderItem[row]
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) -> String? {
+        let dishType = dishOrderItem[row]
+        dishtypeOut = dishType.uppercased()
+        return dishtypeOut
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         pckDishType.dataSource = self;
         pckDishType.delegate = self;
-
+        textRestNamePassed.text = restuarantName
         // Do any additional setup after loading the view.
     }
-
+    
+    
+    @IBAction func saveDetails(_ sender: Any) {
+        
+        //Create a details
+        let restDets = RestaurantDetail(context: context)
+        let textDishName = self.txtDishName.text
+        restDets.dishName = textDishName!
+        restDets.dishType = self.dishtypeOut
+        restDets.dishRating = Int16((self.dishRatingSelected.selectedSegmentIndex + 1))
+        //Save context
+        do {
+            try self.context.save()
+        } catch {
+            
+        }
+        dismiss(animated: true, completion: nil)
+        
+        
+    }
     
     /*
     // MARK: - Navigation

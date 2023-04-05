@@ -23,6 +23,9 @@ extension RestaurantDetail {
 
 }
 
+
+
+
 extension RestaurantDetail : Identifiable {
 
 }

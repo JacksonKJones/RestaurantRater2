@@ -11,5 +11,7 @@ import CoreData
 
 @objc(RestaurantDetail)
 public class RestaurantDetail: NSManagedObject {
+    
+    
 
 }

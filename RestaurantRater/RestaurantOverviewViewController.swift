@@ -11,7 +11,9 @@ import CoreData
 class ViewController: UIViewController {
     
     var currentRestaurant: RestaurantOverview?
-
+    var text: String = ""
+    
+    
     
     @IBOutlet weak var txtRestaurantName: UITextField!
     @IBOutlet weak var txtRestAddress: UITextField!
@@ -41,8 +43,17 @@ class ViewController: UIViewController {
         } catch {
             
         }
+        /*
+        let vc = RestaurantDetailViewController(nibName: "RestaurantDetailViewController", bundle: nil)
+        vc.text = textRestaurantName!
+        navigationController?.pushViewController(vc, animated: true)
+        */
+        func prepare(for segue: UIStoryboardSegue,sender: Any?) {
+            
+            let destinationVC = segue.destination as! RestaurantDetailViewController
+            destinationVC.restuarantName = textRestaurantName!
+        }
     }
-    
         
     
     
