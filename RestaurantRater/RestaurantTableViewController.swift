@@ -14,44 +14,35 @@ class RestaurantTableViewController: UITableViewController {
     //let restaurants = ["Jim", "John", "Dana", "Rosie", "Justin", "Jeremy", "Sarah", "Matt", "Joe", "Donald", "Jeff"]
     
     //Referance to Managed Object Context
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var restaurant: [NSManagedObject] = []
+    var restaurantdetail: [NSManagedObject] = []
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     // Data from the table
-    var items:[RestaurantOverview]?
-    var details:[RestaurantDetail]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadDataFromDatabase()
+    
         
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        
-        //Get items from Core Data
-        fetchRestaurantOverview()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    func fetchRestaurantOverview() {
-        //Fetch restaurants for the table view
+    func loadDataFromDatabase() {
+        let context = appDelegate.persistentContainer.viewContext
+        let requestOverview = NSFetchRequest<NSManagedObject>(entityName: "RestaurantOverview")
+        let requestDetail = NSFetchRequest<NSManagedObject>(entityName: "RestaurantDetail")
         do {
-            self.items = try context.fetch(RestaurantOverview.fetchRequest())
-            
-            
-                self.tableView.reloadData()
-            
-        } catch {
-            
+            restaurant = try context.fetch(requestOverview)
+            restaurantdetail = try context.fetch(requestDetail)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
         }
-        
     }
+     
 
     // MARK: - Table view data source
+
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -59,7 +50,7 @@ class RestaurantTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items?.count ?? 0
+        return restaurantdetail.count
     }
 
     
@@ -67,9 +58,11 @@ class RestaurantTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantCell", for: indexPath)
 
         // Configure the cell... Get Restaurant from array and set as label
-        let restaurant = self.items![indexPath.row]
-        cell.textLabel?.text = "Name: " + restaurant.restaurantName!
-        cell.detailTextLabel?.text = "Address: " + restaurant.restaurantAddress!
+        let txtRestaurant = restaurant[indexPath.row] as? RestaurantOverview
+        let txtDetail = restaurantdetail[indexPath.row] as? RestaurantDetail
+        cell.textLabel?.text = txtRestaurant?.restaurantName
+        cell.detailTextLabel?.text = txtDetail?.dishName
+        //cell.detailTextLabel?.text = restaurantdetail[indexPath.row]
         
         return cell
     }
