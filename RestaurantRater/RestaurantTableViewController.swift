@@ -28,6 +28,14 @@ class RestaurantTableViewController: UITableViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        loadDataFromDatabase()
+        tableView.reloadData()
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 600
+        
+    }
+    
     func loadDataFromDatabase() {
         let context = appDelegate.persistentContainer.viewContext
         let requestOverview = NSFetchRequest<NSManagedObject>(entityName: "RestaurantOverview")
@@ -40,7 +48,6 @@ class RestaurantTableViewController: UITableViewController {
         }
     }
      
-
     // MARK: - Table view data source
 
 
@@ -52,21 +59,48 @@ class RestaurantTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return restaurantdetail.count
     }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantCell", for: indexPath) as! RestaurantCellView
+        cell.accessoryType = UITableViewCell.AccessoryType .detailDisclosureButton
+
+        let restOverview = restaurant[indexPath.row] as? RestaurantOverview
+        let restDetail = restaurantdetail[indexPath.row] as? RestaurantDetail
+        
+        cell.restName?.text = restOverview?.restaurantName
+
+        cell.restMeal?.text = restDetail?.dishRating.description
+        
+
+        return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "EditRestaurantItem"{
+            let restaurantController = segue.destination as? ViewController
+            let selectedRow = self.tableView.indexPath(for: sender as! UITableViewCell)?.row
+            let selectedRestaurantItem = restaurant[selectedRow!] as! RestaurantOverview
+            restaurantController?.currentRestaurant? = selectedRestaurantItem
+        }
+    }
 
     
+
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantCell", for: indexPath)
 
         // Configure the cell... Get Restaurant from array and set as label
         let txtRestaurant = restaurant[indexPath.row] as? RestaurantOverview
         let txtDetail = restaurantdetail[indexPath.row] as? RestaurantDetail
-        cell.textLabel?.text = txtRestaurant?.restaurantName
-        cell.detailTextLabel?.text = txtDetail?.dishName
+        cell.textLabel?.text = "Restaurant Name:" + (txtRestaurant?.restaurantName)! + "That's it"
+        cell.detailTextLabel?.text = txtDetail?.dishRating.description
         //cell.detailTextLabel?.text = restaurantdetail[indexPath.row]
         
         return cell
     }
-    
+
+     */
 
     /*
     // Override to support conditional editing of the table view.

@@ -13,6 +13,7 @@ class RestaurantDetailViewController: UIViewController, UIPickerViewDelegate, UI
     var dishtypeOut: String = ""
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
+    
     @IBOutlet weak var textRestNamePassed: UILabel!
     
     @IBOutlet weak var dishRatingSelected: UISegmentedControl!
@@ -40,12 +41,15 @@ class RestaurantDetailViewController: UIViewController, UIPickerViewDelegate, UI
         return dishtypeOut
     }
     
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         pckDishType.dataSource = self;
         pckDishType.delegate = self;
         textRestNamePassed.text = restuarantName
+        
+        //let textFields: [UITextField] = [txtDishName, txtDishType, txtDishRating]
         // Do any additional setup after loading the view.
     }
     

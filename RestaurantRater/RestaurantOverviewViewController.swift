@@ -38,6 +38,11 @@ class ViewController: UIViewController {
         newRestaurant.restaurantName = textRestaurantName
         newRestaurant.restaurantAddress = textRestaurantAddress
         //save data
+        func prepare(for segue: UIStoryboardSegue,sender: Any?) {
+            
+            let destinationVC = segue.destination as! RestaurantDetailViewController
+            destinationVC.restuarantName = textRestaurantName!
+        
         do {
             try self.context.save()
             txtRestAddress.text = ""
@@ -45,15 +50,7 @@ class ViewController: UIViewController {
         } catch {
             
         }
-        /*
-        let vc = RestaurantDetailViewController(nibName: "RestaurantDetailViewController", bundle: nil)
-        vc.text = textRestaurantName!
-        navigationController?.pushViewController(vc, animated: true)
-        */
-        func prepare(for segue: UIStoryboardSegue,sender: Any?) {
-            
-            let destinationVC = segue.destination as! RestaurantDetailViewController
-            destinationVC.restuarantName = textRestaurantName!
+
         }
     }
         
