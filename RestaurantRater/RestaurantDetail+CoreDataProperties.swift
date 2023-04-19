@@ -2,7 +2,7 @@
 //  RestaurantDetail+CoreDataProperties.swift
 //  RestaurantRater
 //
-//  Created by Marc Turner on 4/4/23.
+//  Created by User 2 on 4/4/23.
 //
 //
 

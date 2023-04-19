@@ -2,7 +2,7 @@
 //  RestaurantTableViewController.swift
 //  RestaurantRater
 //
-//  Created by Marc Turner on 4/4/23.
+//  Created by User 2 on 4/4/23.
 //
 
 import UIKit
@@ -68,6 +68,8 @@ class RestaurantTableViewController: UITableViewController {
         let restDetail = restaurantdetail[indexPath.row] as? RestaurantDetail
         
         cell.restName?.text = restOverview?.restaurantName
+        
+        cell.restItem?.text = restDetail?.dishName?.description
 
         cell.restMeal?.text = restDetail?.dishRating.description
         

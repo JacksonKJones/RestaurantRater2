@@ -2,7 +2,7 @@
 //  RestaurantCellView.swift
 //  RestaurantRater
 //
-//  Created by Marc Turner on 4/10/23.
+//  Created by User 2 on 4/10/23.
 //
 
 import UIKit
